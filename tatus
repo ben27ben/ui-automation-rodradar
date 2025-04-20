@@ -1,0 +1,50 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex ea174d3..a44b245 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -1,18 +1,31 @@[m
+ # Dependencies[m
+ node_modules/[m
+[31m-npm-debug.log[m
+[31m-yarn-debug.log[m
+[31m-yarn-error.log[m
+[32m+[m[32m/.pnp[m
+[32m+[m[32m.pnp.js[m
+ [m
+ # Testing[m
+[32m+[m[32m/coverage[m
+ /test-results/[m
+ /playwright-report/[m
+ /blob-report/[m
+ /playwright/.cache/[m
+ [m
+[31m-# Build[m
+[31m-/dist/[m
+[31m-/build/[m
+[32m+[m[32m# Production[m
+[32m+[m[32m/build[m
+[32m+[m[32m/dist[m
+[32m+[m
+[32m+[m[32m# Misc[m
+[32m+[m[32m.DS_Store[m
+[32m+[m[32m.env.local[m
+[32m+[m[32m.env.development.local[m
+[32m+[m[32m.env.test.local[m
+[32m+[m[32m.env.production.local[m
+[32m+[m[32m*.pem[m
+[32m+[m
+[32m+[m[32m# Debug[m
+[32m+[m[32mnpm-debug.log*[m
+[32m+[m[32myarn-debug.log*[m
+[32m+[m[32myarn-error.log*[m
+ [m
+ # IDE[m
+ .idea/[m
+[36m@@ -21,7 +34,6 @@[m [myarn-error.log[m
+ *.swo[m
+ [m
+ # OS[m
+[31m-.DS_Store[m
+ Thumbs.db[m
+ [m
+ # Environment variables[m
