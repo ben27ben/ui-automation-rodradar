@@ -1,0 +1,38 @@
+Found 8 item type options.
+--- Starting MCP investigation for mandatory fields ---
+Elements found by selector in fillMandatoryFields: [
+  {
+    "tagName": "INPUT",
+    "className": "MuiSelect-nativeInput css-1k3x8v3",
+    "isVisible": true,
+    "isDisabled": false,
+    "isReadOnly": false,
+    "name": null,
+    "id": null,
+    "ariaRequired": null,
+    "required": true
+  },
+  {
+    "tagName": "INPUT",
+    "className": "MuiSelect-nativeInput css-1k3x8v3",
+    "isVisible": true,
+    "isDisabled": false,
+    "isReadOnly": false,
+    "name": null,
+    "id": null,
+    "ariaRequired": null,
+    "required": true
+  },
+  {
+    "tagName": "INPUT",
+    "className": "MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1ii3fmy",
+    "isVisible": true,
+    "isDisabled": false,
+    "isReadOnly": false,
+    "name": null,
+    "id": ":rb:",
+    "ariaRequired": null,
+    "required": true
+  }
+]
+--- Ending MCP investigation ---

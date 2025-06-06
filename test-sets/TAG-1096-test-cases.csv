@@ -1,0 +1,8 @@
+Action,Data,Expected Result
+Complete intro screens,User completes all intro screens,Sign up screen is displayed
+Sign up successfully,Valid user data,AC type selection screen is displayed
+Select "יש לי מזגן עילי" and click "הבא",AC type: עילי,User is navigated to identification screen
+Select "יש לי מיני מרכזי" and click "הבא",AC type: מיני מרכזי,Option is not available (should be removed from dropdown)
+Click "אשמח לעזרה בזיהוי" link,User clicks help link,Help screen about AC types is displayed
+Try to proceed without selecting an AC type,No selection,Next button is disabled or error shown
+Select "יש לי מערכת VRF" and click "הבא",AC type: VRF,Option is not available (out of scope) 

@@ -1,0 +1,9 @@
+Questions/Comments for TAG-1085:
+
+1. Is there a specific location or order for the new button on the "שירות" screen?
+2. Should the button be styled in a particular way (color, size, icon) according to Figma or design guidelines?
+3. What should happen if the WhatsApp link fails to open (e.g., error message, silent fail)?
+4. Are there any user roles or conditions where the button should NOT be visible?
+5. Should there be analytics or tracking for button clicks?
+6. Is there a fallback or alternative contact method if WhatsApp is not available?
+7. Should the button be localized for different languages? 

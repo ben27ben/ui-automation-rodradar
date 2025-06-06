@@ -96,7 +96,7 @@ test("Filter organizations by status", async ({ page }) => {
   }
 });
 
-test.only("Edit an existing organization", async ({ page }) => {
+test("Edit an existing organization", async ({ page }) => {
   await dashboardPage.navigateAndVerify(
     "Organizations",
     "organizations/bucket-manufacture"

@@ -1,0 +1,79 @@
+Error processing option 4/8: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('//li[contains(@class, "css-13rzlu4") and contains(@data-value, "2")]')
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:85:23)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@64',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 85,
+      column: 23,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.click(//li[contains(@class, "css-13rzlu4") and contains(@data-value, "2")])',
+    apiName: 'locator.click',
+    params: {
+      selector: '//li[contains(@class, "css-13rzlu4") and contains(@data-value, "2")]',
+      strict: true
+    },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@64'
+    },
+    complete: [Function: complete],
+    endWallTime: 1749226067993,
+    error: {
+      message: 'Error: locator.click: Target page, context or browser has been closed\n' +
+        'Call log:\n' +
+        `\x1B[2m  - waiting for locator('//li[contains(@class, "css-13rzlu4") and contains(@data-value, "2")]')\x1B[22m\n`,
+      stack: 'Error: locator.click: Target page, context or browser has been closed\n' +
+        'Call log:\n' +
+        `\x1B[2m  - waiting for locator('//li[contains(@class, "css-13rzlu4") and contains(@data-value, "2")]')\x1B[22m\n` +
+        '\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:85:23)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}
+Failed to close dialog: locator.isVisible: Target page, context or browser has been closed
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:115:31)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@65',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 115,
+      column: 31,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.isVisible(button[aria-label="Close"])',
+    apiName: 'locator.isVisible',
+    params: { selector: 'button[aria-label="Close"]', strict: true },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@65'
+    },
+    complete: [Function: complete],
+    endWallTime: 1749226068001,
+    error: {
+      message: 'Error: locator.isVisible: Target page, context or browser has been closed',
+      stack: 'Error: locator.isVisible: Target page, context or browser has been closed\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:115:31)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}

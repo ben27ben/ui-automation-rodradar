@@ -1,0 +1,43 @@
+Error processing option 1/8: locator.isVisible: Unknown engine "name" while parsing selector name="manufactureSerialNumber"]
+Call log:
+    - checking visibility of locator('name="manufactureSerialNumber"]')
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:76:44)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  name: 'Error',
+  [Symbol(step)]: {
+    stepId: 'pw:api@22',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 76,
+      column: 44,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.isVisible(name="manufactureSerialNumber"])',
+    apiName: 'locator.isVisible',
+    params: { selector: 'name="manufactureSerialNumber"]', strict: true },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@22'
+    },
+    complete: [Function: complete],
+    endWallTime: 1749223831203,
+    error: {
+      message: 'Error: locator.isVisible: Unknown engine "name" while parsing selector name="manufactureSerialNumber"]\n' +
+        'Call log:\n' +
+        `\x1B[2m    - checking visibility of locator('name="manufactureSerialNumber"]')\x1B[22m\n`,
+      stack: 'Error: locator.isVisible: Unknown engine "name" while parsing selector name="manufactureSerialNumber"]\n' +
+        'Call log:\n' +
+        `\x1B[2m    - checking visibility of locator('name="manufactureSerialNumber"]')\x1B[22m\n` +
+        '\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:76:44)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}

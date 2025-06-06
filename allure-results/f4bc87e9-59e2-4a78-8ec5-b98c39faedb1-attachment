@@ -1,0 +1,59 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:5:6
+
+# Error details
+
+```
+Error: page.goto: Target page, context or browser has been closed
+Call log:
+  - navigating to "https://bo-dev.rodradar.com/", waiting until "load"
+
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:7:14
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@playwright/test';
+   2 | import { fillMandatoryFields, createItemsForTab } from '../utils/helpers';
+   3 | import { allure } from 'allure-playwright';
+   4 |
+   5 | test.only('Inventory item creation automation', async ({ page }) => {
+   6 |   // Login
+>  7 |   await page.goto('https://bo-dev.rodradar.com');
+     |              ^ Error: page.goto: Target page, context or browser has been closed
+   8 |   await page.fill('input[type="email"],input[name="email"]', 'boadmin@rodradar.com');
+   9 |   await page.fill('input[type="password"],input[name="password"]', 'Abcd1234');
+  10 |   await page.click('button[type="submit"],button:has-text("Login"),button:has-text("Sign In")');
+  11 |
+  12 |   // Wait for a known element after login (sidebar Inventory link)
+  13 |   await page.waitForSelector('a[href="/inventory"]', { timeout: 15000 });
+  14 |
+  15 |   // Go directly to the Inventory Items page
+  16 |   await page.goto('https://bo-dev.rodradar.com/inventory/items');
+  17 |
+  18 |   // Check for select[name="itemType"] option
+  19 |   // const itemTypeOptions = await page.$$('select[name="itemType"] option');
+  20 |   // console.log('Number of itemType options:', itemTypeOptions.length);
+  21 |
+  22 |   // // Check required fields
+  23 |   // const requiredInputs = await page.$$('input[required], select[required], textarea[required], [aria-required="true"]');
+  24 |   // console.log('Number of required fields:', requiredInputs.length);
+  25 |   // for (const input of requiredInputs) {
+  26 |   //   const tag = await input.evaluate((el: HTMLElement) => el.tagName.toLowerCase());
+  27 |   //   console.log('Required field tag:', tag);
+  28 |   // }
+  29 |   // await page.pause();
+  30 |
+  31 |   // Inventory
+  32 |   await createItemsForTab(page, 'inventory');
+  33 | }); 
+```

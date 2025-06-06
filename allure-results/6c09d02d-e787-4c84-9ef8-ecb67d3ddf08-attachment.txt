@@ -1,0 +1,10 @@
+Selecting item type: Digital Card
+Filled Manufacture S/N for Digital Card
+Filled Manufacture P/N for Digital Card
+Selected a date for Digital Card
+Selecting item type: Bucket
+Filled Manufacture S/N for Bucket
+Filled Manufacture P/N for Bucket
+Selected a date for Bucket
+Selecting item type: Antenna
+Filled Manufacture S/N for Antenna

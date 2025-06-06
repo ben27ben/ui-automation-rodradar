@@ -1,0 +1,118 @@
+Error processing item type Logout: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('text=Logout')
+    - locator resolved to <span class="MuiTypography-root MuiTypography-body1 css-1uk4hfi">Logout</span>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    856 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 500ms
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:62:46)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@20',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 62,
+      column: 46,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.click(text=Logout)',
+    apiName: 'locator.click',
+    params: { selector: 'text=Logout', strict: true },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@20'
+    },
+    complete: [Function: complete],
+    endWallTime: 1748357617020,
+    error: {
+      message: 'Error: locator.click: Target page, context or browser has been closed\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for locator('text=Logout')\x1B[22m\n" +
+        '\x1B[2m    - locator resolved to <span class="MuiTypography-root MuiTypography-body1 css-1uk4hfi">Logout</span>\x1B[22m\n' +
+        '\x1B[2m  - attempting click action\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is not visible\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m    - waiting 20ms\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is not visible\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m      - waiting 100ms\x1B[22m\n' +
+        '\x1B[2m    856 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m        - element is not visible\x1B[22m\n' +
+        '\x1B[2m      - retrying click action\x1B[22m\n' +
+        '\x1B[2m        - waiting 500ms\x1B[22m\n',
+      stack: 'Error: locator.click: Target page, context or browser has been closed\n' +
+        'Call log:\n' +
+        "\x1B[2m  - waiting for locator('text=Logout')\x1B[22m\n" +
+        '\x1B[2m    - locator resolved to <span class="MuiTypography-root MuiTypography-body1 css-1uk4hfi">Logout</span>\x1B[22m\n' +
+        '\x1B[2m  - attempting click action\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is not visible\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m    - waiting 20ms\x1B[22m\n' +
+        '\x1B[2m    2 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m      - element is not visible\x1B[22m\n' +
+        '\x1B[2m    - retrying click action\x1B[22m\n' +
+        '\x1B[2m      - waiting 100ms\x1B[22m\n' +
+        '\x1B[2m    856 × waiting for element to be visible, enabled and stable\x1B[22m\n' +
+        '\x1B[2m        - element is not visible\x1B[22m\n' +
+        '\x1B[2m      - retrying click action\x1B[22m\n' +
+        '\x1B[2m        - waiting 500ms\x1B[22m\n' +
+        '\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:62:46)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}
+Failed to close dialog: locator.isVisible: Target page, context or browser has been closed
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:96:31)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@21',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 96,
+      column: 31,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.isVisible(button[aria-label="Close"])',
+    apiName: 'locator.isVisible',
+    params: { selector: 'button[aria-label="Close"]', strict: true },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@21'
+    },
+    complete: [Function: complete],
+    endWallTime: 1748357617023,
+    error: {
+      message: 'Error: locator.isVisible: Target page, context or browser has been closed',
+      stack: 'Error: locator.isVisible: Target page, context or browser has been closed\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:96:31)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}

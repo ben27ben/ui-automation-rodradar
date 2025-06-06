@@ -1,0 +1,172 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:5:6
+
+# Error details
+
+```
+TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('select[name="itemType"]') to be visible
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:44:14)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:38:3
+```
+
+# Page snapshot
+
+```yaml
+- dialog:
+  - heading "Add Item" [level=4]
+  - text: Item Type
+  - button "Please select item type"
+  - text: Manufacture S/N
+  - textbox "Manufacture S/N"
+  - text: Manufacture Date
+  - textbox "Manufacture Date"
+  - button "Choose date"
+  - text: Notes
+  - textbox "Notes"
+  - button "Upload File":
+    - img
+    - text: Upload File
+  - paragraph
+  - button "Cancel"
+  - button "Add" [disabled]
+```
+
+# Test source
+
+```ts
+   1 | import { param } from "jquery";
+   2 | import { Locator, Page } from "playwright";
+   3 |
+   4 | export const randomString = (length: number): string => {
+   5 |   return Math.random()
+   6 |     .toString(36)
+   7 |     .substring(2, length + 2);
+   8 | };
+   9 |
+   10 | export async function waitForElement(
+   11 |   locator: Locator,
+   12 |   timeout: number = 5000
+   13 | ): Promise<void> {
+   14 |   await locator.waitFor({ state: "visible", timeout });
+   15 | }
+   16 |
+   17 | // Utility to fill all required fields in the add item dialog
+   18 | export async function fillMandatoryFields(page: Page) {
+   19 |   // Find all required fields (assuming they have aria-required or required attribute)
+   20 |   const requiredInputs = await page.$$('input[required], select[required], textarea[required], [aria-required="true"]');
+   21 |   for (const input of requiredInputs) {
+   22 |     const tag = await input.evaluate((el: HTMLElement) => el.tagName.toLowerCase());
+   23 |     if (tag === 'input' || tag === 'textarea') {
+   24 |       await input.fill('test'); // Insert a generic value
+   25 |     } else if (tag === 'select') {
+   26 |       const options = await input.$$('option');
+   27 |       if (options.length > 1) {
+   28 |         await input.selectOption({ index: 1 }); // Select the first non-default option
+   29 |       }
+   30 |     }
+   31 |   }
+   32 | }
+   33 |
+   34 | // Helper to create items for a given tab (now expects to be on the correct page)
+   35 | export async function createItemsForTab(page: Page) {
+   36 |   // Find the plus (+) button by aria-label
+   37 |   const addItemButton = page.locator('button[aria-label="Add item"]');
+   38 |   
+   39 |   // Wait for and click the add item button
+   40 |   await addItemButton.waitFor({ state: 'visible', timeout: 10000 });
+   41 |   await addItemButton.click();
+   42 |   
+   43 |   // Wait for the dialog to be fully loaded
+>  44 |   await page.waitForSelector('select[name="itemType"]', { state: 'visible', timeout: 10000 });
+      |              ^ TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
+   45 |   
+   46 |   // Get all item types from dropdown
+   47 |   const itemTypes = await page.$$eval('select[name="itemType"] option', opts => opts
+   48 |     .filter(o => o instanceof HTMLOptionElement && o.value)
+   49 |     .map(o => (o as HTMLOptionElement).value)
+   50 |   );
+   51 |   
+   52 |   console.log('Found item types:', itemTypes);
+   53 |   
+   54 |   for (const itemType of itemTypes) {
+   55 |     try {
+   56 |       // Wait for and select the item type
+   57 |       const itemTypeSelect = page.locator('select[name="itemType"]');
+   58 |       await itemTypeSelect.waitFor({ state: 'visible' });
+   59 |       await itemTypeSelect.selectOption(itemType);
+   60 |       
+   61 |       // Verify the selection was successful
+   62 |       const selectedValue = await itemTypeSelect.evaluate(el => (el as HTMLSelectElement).value);
+   63 |       if (selectedValue !== itemType) {
+   64 |         console.log(`Failed to select item type ${itemType}, got ${selectedValue} instead`);
+   65 |         continue;
+   66 |       }
+   67 |       
+   68 |       // Fill mandatory fields
+   69 |       await fillMandatoryFields(page);
+   70 |       
+   71 |       // Click the Add button and wait for success
+   72 |       const addButton = page.locator('button:has-text("Add")');
+   73 |       await addButton.click();
+   74 |       
+   75 |       // Wait for the dialog to close or success message
+   76 |       await page.waitForTimeout(2000);
+   77 |       
+   78 |       console.log(`Successfully added item of type: ${itemType}`);
+   79 |       
+   80 |       // Re-open the add item window for the next item type
+   81 |       await addItemButton.click();
+   82 |       await page.waitForSelector('select[name="itemType"]', { state: 'visible', timeout: 10000 });
+   83 |       
+   84 |     } catch (e) {
+   85 |       console.error(`Error processing item type ${itemType}:`, e);
+   86 |       // Try to close the dialog if it's stuck
+   87 |       try {
+   88 |         const closeButton = page.locator('button[aria-label="Close"]');
+   89 |         if (await closeButton.isVisible()) {
+   90 |           await closeButton.click();
+   91 |         }
+   92 |       } catch (closeError) {
+   93 |         console.error('Failed to close dialog:', closeError);
+   94 |       }
+   95 |       continue;
+   96 |     }
+   97 |   }
+   98 | }
+   99 |
+  100 | // just stuff that can be usefull
+  101 | //create a locator with id
+  102 | // const firstName:Locator = page.locator('id=input-firstName')
+  103 | //create a locator with class
+  104 | //  const firstName:Locator = page.locator('.input-firstName')
+  105 | //  nameExist = await firstName.isEnabled()
+  106 |
+  107 | //create a locator with text
+  108 | //  const header:Locator = page.locator('text=Header Name')
+  109 | // const headerExisted = await header.isEnabled()
+  110 |
+  111 | //create a locator with css
+  112 | //const email:Locator = page.locator('input#input-email')
+  113 | //const telephone:Locator = page.locator('input[name="telephone"]')
+  114 | //const checkbox:Locator = page.locator('input[type="checkbox"]')
+  115 |
+  116 |
+  117 | //create a locator with xpath
+  118 | // const element = page.locator('xpath=//button')
+  119 |
+  120 | //Prevents the script from exiting(closing)
+  121 | // await new Promise(() => {})
+  122 |
+  123 |
+```

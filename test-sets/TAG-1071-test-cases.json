@@ -1,0 +1,35 @@
+{
+  "title": "Test Cases for TAG-1071",
+  "testCases": [
+    {
+      "Action": "Open AI recognition camera screen",
+      "Data": "User starts camera flow",
+      "Expected Result": "Frame is displayed, screen is darkened, hint text and button are shown"
+    },
+    {
+      "Action": "Click 'הבנתי תודה' button",
+      "Data": "User clicks button",
+      "Expected Result": "Hint text and button are hidden, camera becomes active"
+    },
+    {
+      "Action": "Take a picture",
+      "Data": "User takes a picture",
+      "Expected Result": "Image is cropped based on frame and sent to AI recognition system"
+    },
+    {
+      "Action": "Try to take a picture before clicking 'הבנתי תודה'",
+      "Data": "User attempts to take picture",
+      "Expected Result": "Camera is not active, cannot take picture"
+    },
+    {
+      "Action": "Check hint text visibility",
+      "Data": "Camera screen opened",
+      "Expected Result": "Hint text is visible below frame"
+    },
+    {
+      "Action": "Check button visibility",
+      "Data": "Camera screen opened",
+      "Expected Result": "'הבנתי תודה' button is visible below hint text"
+    }
+  ]
+} 

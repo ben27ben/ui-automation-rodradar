@@ -1,0 +1,169 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:5:6
+
+# Error details
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('button[aria-label="Add item"]')
+    - locator resolved to <button disabled tabindex="-1" type="button" aria-label="Add item" class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-231q9g">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    500 × waiting for element to be visible, enabled and stable
+        - element is not enabled
+      - retrying click action
+        - waiting 500ms
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:41:23)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:42:3
+```
+
+# Test source
+
+```ts
+   1 | import { param } from "jquery";
+   2 | import { Locator, Page } from "playwright";
+   3 |
+   4 | export const randomString = (length: number): string => {
+   5 |   return Math.random()
+   6 |     .toString(36)
+   7 |     .substring(2, length + 2);
+   8 | };
+   9 |
+   10 | export async function waitForElement(
+   11 |   locator: Locator,
+   12 |   timeout: number = 5000
+   13 | ): Promise<void> {
+   14 |   await locator.waitFor({ state: "visible", timeout });
+   15 | }
+   16 |
+   17 | // Utility to fill all required fields in the add item dialog
+   18 | export async function fillMandatoryFields(page: Page) {
+   19 |   // Find all required fields (assuming they have aria-required or required attribute)
+   20 |   const requiredInputs = await page.$$('input[required], select[required], textarea[required], [aria-required="true"]');
+   21 |   for (const input of requiredInputs) {
+   22 |     const tag = await input.evaluate((el: HTMLElement) => el.tagName.toLowerCase());
+   23 |     if (tag === 'input' || tag === 'textarea') {
+   24 |       await input.fill('test'); // Insert a generic value
+   25 |     } else if (tag === 'select') {
+   26 |       const options = await input.$$('option');
+   27 |       if (options.length > 1) {
+   28 |         await input.selectOption({ index: 1 }); // Select the first non-default option
+   29 |       }
+   30 |     }
+   31 |   }
+   32 | }
+   33 |
+   34 | // Helper to create items for a given tab (now expects to be on the correct page)
+   35 | export async function createItemsForTab(page: Page) {
+   36 |   // Find the plus (+) button by aria-label
+   37 |   const addItemButton = page.locator('button[aria-label="Add item"]');
+   38 |   
+   39 |   // Wait for and click the add item button
+   40 |   await addItemButton.waitFor({ state: 'visible', timeout: 10000 });
+>  41 |   await addItemButton.click();
+      |                       ^ Error: locator.click: Target page, context or browser has been closed
+   42 |   
+   43 |   // Wait for the dialog to be fully loaded
+   44 |   await page.waitForSelector('select[name="itemType"]', { state: 'visible', timeout: 10000 });
+   45 |   
+   46 |   // Get all item types from dropdown
+   47 |   const itemTypes = await page.$$eval('select[name="itemType"] option', opts => opts
+   48 |     .filter(o => o instanceof HTMLOptionElement && o.value)
+   49 |     .map(o => (o as HTMLOptionElement).value)
+   50 |   );
+   51 |   
+   52 |   console.log('Found item types:', itemTypes);
+   53 |   
+   54 |   for (const itemType of itemTypes) {
+   55 |     try {
+   56 |       // Click the div to open the dropdown
+   57 |       await page.locator('div[tabindex="0"][role="button"][aria-expanded="false"][aria-haspopup="listbox"].MuiSelect-select').click();
+   58 |       await page.waitForTimeout(500); // Wait for dropdown to open
+   59 |
+   60 |       // Click the specific option in the opened listbox (adjust selector if needed)
+   61 |       await page.locator(`text=${itemType}`).click();
+   62 |       await page.waitForTimeout(500); // Wait for selection to take effect
+   63 |       
+   64 |       // Verify the selection was successful
+   65 |       const selectedValue = await page.locator('div[tabindex="0"][role="button"][aria-expanded="true"][aria-haspopup="listbox"].MuiSelect-select').evaluate(el => (el as HTMLSelectElement).value);
+   66 |       console.log(`Selected value: ${selectedValue}, Expected: ${itemType}`);
+   67 |       
+   68 |       if (selectedValue !== itemType) {
+   69 |         console.log(`Failed to select item type ${itemType}, got ${selectedValue} instead`);
+   70 |         continue;
+   71 |       }
+   72 |       
+   73 |       // Fill mandatory fields
+   74 |       await fillMandatoryFields(page);
+   75 |       
+   76 |       // Click the Add button and wait for success
+   77 |       const addButton = page.locator('button:has-text("Add")');
+   78 |       await addButton.click();
+   79 |       
+   80 |       // Wait for the dialog to close or success message
+   81 |       await page.waitForTimeout(2000);
+   82 |       
+   83 |       console.log(`Successfully added item of type: ${itemType}`);
+   84 |       
+   85 |       // Re-open the add item window for the next item type
+   86 |       await addItemButton.click();
+   87 |       await page.waitForSelector('select[name="itemType"]', { state: 'visible', timeout: 10000 });
+   88 |       
+   89 |     } catch (e) {
+   90 |       console.error(`Error processing item type ${itemType}:`, e);
+   91 |       // Try to close the dialog if it's stuck
+   92 |       try {
+   93 |         const closeButton = page.locator('button[aria-label="Close"]');
+   94 |         if (await closeButton.isVisible()) {
+   95 |           await closeButton.click();
+   96 |         }
+   97 |       } catch (closeError) {
+   98 |         console.error('Failed to close dialog:', closeError);
+   99 |       }
+  100 |       continue;
+  101 |     }
+  102 |   }
+  103 | }
+  104 |
+  105 | // just stuff that can be usefull
+  106 | //create a locator with id
+  107 | // const firstName:Locator = page.locator('id=input-firstName')
+  108 | //create a locator with class
+  109 | //  const firstName:Locator = page.locator('.input-firstName')
+  110 | //  nameExist = await firstName.isEnabled()
+  111 |
+  112 | //create a locator with text
+  113 | //  const header:Locator = page.locator('text=Header Name')
+  114 | // const headerExisted = await header.isEnabled()
+  115 |
+  116 | //create a locator with css
+  117 | //const email:Locator = page.locator('input#input-email')
+  118 | //const telephone:Locator = page.locator('input[name="telephone"]')
+  119 | //const checkbox:Locator = page.locator('input[type="checkbox"]')
+  120 |
+  121 |
+  122 | //create a locator with xpath
+  123 | // const element = page.locator('xpath=//button')
+  124 |
+  125 | //Prevents the script from exiting(closing)
+  126 | // await new Promise(() => {})
+  127 |
+  128 |
+```

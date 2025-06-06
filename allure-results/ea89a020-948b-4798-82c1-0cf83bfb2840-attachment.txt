@@ -1,0 +1,4 @@
+Number of itemType options: 0
+Number of required fields: 2
+Required field tag: input
+Required field tag: input

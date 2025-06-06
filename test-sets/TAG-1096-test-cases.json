@@ -1,0 +1,40 @@
+{
+  "title": "Test Cases for TAG-1096",
+  "testCases": [
+    {
+      "Action": "Complete intro screens",
+      "Data": "User completes all intro screens",
+      "Expected Result": "Sign up screen is displayed"
+    },
+    {
+      "Action": "Sign up successfully",
+      "Data": "Valid user data",
+      "Expected Result": "AC type selection screen is displayed"
+    },
+    {
+      "Action": "Select 'יש לי מזגן עילי' and click 'הבא'",
+      "Data": "AC type: עילי",
+      "Expected Result": "User is navigated to identification screen"
+    },
+    {
+      "Action": "Select 'יש לי מיני מרכזי' and click 'הבא'",
+      "Data": "AC type: מיני מרכזי",
+      "Expected Result": "Option is not available (should be removed from dropdown)"
+    },
+    {
+      "Action": "Click 'אשמח לעזרה בזיהוי' link",
+      "Data": "User clicks help link",
+      "Expected Result": "Help screen about AC types is displayed"
+    },
+    {
+      "Action": "Try to proceed without selecting an AC type",
+      "Data": "No selection",
+      "Expected Result": "Next button is disabled or error shown"
+    },
+    {
+      "Action": "Select 'יש לי מערכת VRF' and click 'הבא'",
+      "Data": "AC type: VRF",
+      "Expected Result": "Option is not available (out of scope)"
+    }
+  ]
+} 

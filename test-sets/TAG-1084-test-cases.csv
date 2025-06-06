@@ -1,0 +1,9 @@
+Action,Data,Expected Result
+Select a Wi-Fi network during pairing,Network: 2.4GHz,"No warning ,  continue pairing"
+Select a Wi-Fi network during pairing,Network: 5GHz,Warning message about unsupported frequency is shown
+Select a Wi-Fi network with SSID containing '5GHz' (iPhone),SSID: MyWifi-5GHz,Warning message is shown
+Click 'התחברות' on 5GHz network,Network: 5GHz,Warning message is shown
+Click 'אשמח לקבל עוד מידע' on warning,User clicks 'Learn More',Support page for 2.4GHz is opened
+Click 'מעוניין להתחבר בכל זאת' on warning,User clicks 'Continue Anyway',Pairing continues at user's risk
+Click close on warning without action,User closes warning,"Pairing does not continue ,  warning dismissed"
+Select a Wi-Fi network with unknown frequency,Network: Unknown,Pairing continues as 2.4GHz 

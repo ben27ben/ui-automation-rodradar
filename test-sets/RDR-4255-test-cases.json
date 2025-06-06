@@ -1,0 +1,55 @@
+{
+  "title": "Test Cases for RDR-4255",
+  "testCases": [
+    {
+      "Action": "Enable 'Share Location' toggle in settings",
+      "Data": "Toggle set to ON",
+      "Expected Result": "Location of scan is saved in DB and uploaded to BO"
+    },
+    {
+      "Action": "Disable 'Share Location' toggle in settings",
+      "Data": "Toggle set to OFF",
+      "Expected Result": "Location is saved as 0,0 in DB for all scans"
+    },
+    {
+      "Action": "Scan using LDR app with toggle ON",
+      "Data": "Device: Mobile",
+      "Expected Result": "Location is saved per mobile device and uploaded to BO"
+    },
+    {
+      "Action": "Scan using WinApp with toggle ON",
+      "Data": "Device: WinApp",
+      "Expected Result": "Location is saved per unit and uploaded to BO"
+    },
+    {
+      "Action": "Scan using LDR app with toggle OFF",
+      "Data": "Device: Mobile",
+      "Expected Result": "Location is saved as 0,0 per mobile device in DB"
+    },
+    {
+      "Action": "Scan using WinApp with toggle OFF",
+      "Data": "Device: WinApp",
+      "Expected Result": "Location is saved as 0,0 per unit in DB"
+    },
+    {
+      "Action": "Attempt to scan with toggle OFF and check BO",
+      "Data": "Toggle OFF",
+      "Expected Result": "BO receives location as 0,0"
+    },
+    {
+      "Action": "Attempt to scan with toggle ON and check BO",
+      "Data": "Toggle ON",
+      "Expected Result": "BO receives actual location"
+    },
+    {
+      "Action": "Try to save scan when DB is unavailable",
+      "Data": "Any",
+      "Expected Result": "Error is shown and scan is not saved"
+    },
+    {
+      "Action": "Try to toggle setting without permissions",
+      "Data": "User without permission",
+      "Expected Result": "Action is denied and setting is not changed"
+    }
+  ]
+} 

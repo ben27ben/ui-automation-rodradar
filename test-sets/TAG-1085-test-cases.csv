@@ -1,0 +1,7 @@
+Action,Data,Expected Result
+"Display new button on ""שירות"" screen",N/A,"Button labeled ""צ'אט ישיר עם נציג 24/7"" is visible to all users on the support screen"
+Click the new button with WhatsApp installed,N/A,"WhatsApp application opens with pre-filled message: ""אשמח לקבלת שירות מתדיראן"""
+Click the new button without WhatsApp installed,N/A,"Default browser opens WhatsApp Web with pre-filled message: ""אשמח לקבלת שירות מתדיראן"""
+Check button visibility for all user types,N/A,Button is visible to all users regardless of role or login status
+Click the button with network disconnected,N/A,Error message or fallback behavior is shown (e.g.
+Click the button with invalid WhatsApp link,Corrupted or changed link,User is shown an error or WhatsApp fails to open 

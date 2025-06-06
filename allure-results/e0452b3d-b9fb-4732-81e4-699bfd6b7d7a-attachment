@@ -1,0 +1,64 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:4:5
+
+# Error details
+
+```
+Error: page.goto: Test timeout of 20000ms exceeded.
+Call log:
+  - navigating to "https://bo-dev.rodradar.com/", waiting until "load"
+
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:6:14
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@playwright/test';
+   2 | import { fillMandatoryFields, createItemsForTab } from '../utils/helpers';
+   3 |
+   4 | test('Inventory item creation automation', async ({ page }) => {
+   5 |   // Login
+>  6 |   await page.goto('https://bo-dev.rodradar.com');
+     |              ^ Error: page.goto: Test timeout of 20000ms exceeded.
+   7 |   await page.fill('input[type="email"],input[name="email"]', 'boadmin@rodradar.com');
+   8 |   await page.fill('input[type="password"],input[name="password"]', 'Abcd1234');
+   9 |   await page.click('button[type="submit"],button:has-text("Login"),button:has-text("Sign In")');
+  10 |
+  11 |   // Wait for a known element after login (sidebar Inventory link)
+  12 |   await page.waitForSelector('a[href="/inventory"]', { timeout: 15000 });
+  13 |
+  14 |   // Go directly to the Inventory Items page
+  15 |   await page.goto('https://bo-dev.rodradar.com/inventory/items');
+  16 |
+  17 |   // Open the add item dialog
+  18 |   const addItemButton = page.locator('button[aria-label="Add item"]');
+  19 |   await addItemButton.waitFor({ state: 'visible', timeout: 10000 });
+  20 |   await addItemButton.click();
+  21 |   await page.waitForTimeout(1000);
+  22 |
+  23 |   // Check for select[name="itemType"] option
+  24 |   const itemTypeOptions = await page.$$('select[name="itemType"] option');
+  25 |   console.log('Number of itemType options:', itemTypeOptions.length);
+  26 |
+  27 |   // Check required fields
+  28 |   const requiredInputs = await page.$$('input[required], select[required], textarea[required], [aria-required="true"]');
+  29 |   console.log('Number of required fields:', requiredInputs.length);
+  30 |   for (const input of requiredInputs) {
+  31 |     const tag = await input.evaluate((el: HTMLElement) => el.tagName.toLowerCase());
+  32 |     console.log('Required field tag:', tag);
+  33 |   }
+  34 |   // await page.pause();
+  35 |
+  36 |   // Inventory
+  37 |   await createItemsForTab(page);
+  38 | }); 
+```

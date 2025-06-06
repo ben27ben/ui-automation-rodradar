@@ -1,0 +1,230 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Add new organization
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Organizations.spec.ts:51:6
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Add bucket manufacture' })
+
+    at C:\Users\benv\ui-automation-playwright\src\tests\Organizations.spec.ts:59:70
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - heading "RodRadar" [level=1]:
+    - img "RodRadar"
+  - button
+  - button "Avatar Bo Admin":
+    - img "Avatar"
+    - text: Bo Admin
+- button
+- list:
+  - img
+  - text: Dashboards
+  - link "Organizations":
+    - img
+    - text: Organizations
+  - link "Users"
+  - link "Units"
+  - link "Scans"
+  - link "Errors Log":
+    - img
+    - text: Errors Log
+  - link "Inventory":
+    - img
+    - text: Inventory
+  - link "Versions":
+    - img
+    - text: Versions
+  - link "Reports":
+    - img
+    - text: Reports
+  - link "Trainings":
+    - img
+    - text: Trainings
+  - link "Alerts":
+    - img
+    - text: Alerts
+  - link "Support Calls":
+    - img
+    - text: Support Calls
+- text: "Version: 7.26.0"
+- main
+```
+
+# Test source
+
+```ts
+   1 | import { Page } from "@playwright/test";
+   2 | import { test, expect } from "@playwright/test";
+   3 | import { LoginPage } from "../pages/loginPage";
+   4 | import { Dashboardpage } from "../pages/dashboardPage";
+   5 | import { faker } from "@faker-js/faker";
+   6 |
+   7 | let loginPage: LoginPage;
+   8 | let dashboardPage: Dashboardpage;
+   9 | let orgName: string;
+   10 |
+   11 | // test.describe.only("Dashboard testing", () => {
+   12 |
+   13 | test.beforeEach(async ({ page }) => {
+   14 |   loginPage = new LoginPage(page);
+   15 |   dashboardPage = new Dashboardpage(page);
+   16 |
+   17 |   await loginPage.navigateToLogin();
+   18 |
+   19 |   await loginPage.login("boadmin@rodradar.com", "Abcd1234");
+   20 | });
+   21 | test("Enter Organizations page", async () => {
+   22 |   // await loginPage.navigateToLogin();
+   23 |   // await loginPage.login("boadmin@rodradar.com", "Abcd1234");
+   24 |   await dashboardPage.navigateAndVerify(
+   25 |     "Organizations",
+   26 |     "organizations/bucket-manufacture"
+   27 |   );
+   28 | });
+   29 |
+   30 | test("Search for a Bucket Manufacture", async ({ page }) => {
+   31 |   // await loginPage.navigateToLogin();
+   32 |   // await loginPage.login("boadmin@rodradar.com", "Abcd1234");
+   33 |   await dashboardPage.navigateAndVerify(
+   34 |     "Organizations",
+   35 |     "organizations/bucket-manufacture"
+   36 |   );
+   37 | });
+   38 |
+   39 | test("Search for a Bucket Manufacture2", async ({ page }) => {
+   40 |   // await loginPage.navigateToLogin();
+   41 |   // await loginPage.login("boadmin@rodradar.com", "Abcd1234");
+   42 |   await dashboardPage.navigateAndVerify(
+   43 |     "Organizations",
+   44 |     "organizations/bucket-manufacture"
+   45 |   );
+   46 |
+   47 |   const randomRow = Math.floor(Math.random() * 10) + 1;
+   48 |   await page.locator('//input[@id="SearchBox-label"]');
+   49 | });
+   50 |
+   51 | test.only("Add new organization", async ({ page }) => {
+   52 |   await dashboardPage.navigateAndVerify(
+   53 |     "Organizations",
+   54 |     "organizations/bucket-manufacture"
+   55 |   );
+   56 |
+   57 |   // Click add new organization button
+   58 |   await page.waitForLoadState("networkidle");
+>  59 |   await page.getByRole("button", { name: "Add bucket manufacture" }).click();
+      |                                                                      ^ Error: locator.click: Test timeout of 30000ms exceeded.
+   60 |
+   61 |   // Generate and store organization details
+   62 |   orgName = faker.company.name();
+   63 |   const cleanName = orgName.replace(/[^a-zA-Z\s]/g, "");
+   64 |   const phoneNumber = faker.phone.number();
+   65 |
+   66 |   // Fill organization details
+   67 |   await page
+   68 |     .getByRole("textbox", { name: "Bucket Manufacture Name" })
+   69 |     .fill(cleanName);
+   70 |   await page.getByRole("textbox", { name: "Phone Number" }).fill(phoneNumber);
+   71 |   await page.getByText('Update only upcoming version').click();
+   72 |   // Save the organization
+   73 |   await page.getByRole("button", { name: "Save" }).click();
+   74 |   // Verify organization was added
+   75 |   await expect(page.locator(`text=${cleanName}`)).toBeVisible();
+   76 | });
+   77 |
+   78 | test("Filter organizations by status", async ({ page }) => {
+   79 |   await dashboardPage.navigateAndVerify(
+   80 |     "Organizations",
+   81 |     "organizations/bucket-manufacture"
+   82 |   );
+   83 |
+   84 |   // בחירת סטטוס מסוים מהפילטר
+   85 |   await page.getByLabel("Status").click();
+   86 |   await page.getByRole("option", { name: "Active", exact: true }).click();
+   87 |   await page.getByRole("button", { name: "Rows per page:" }).click();
+   88 |   await page.getByRole("option", { name: "40" }).click();
+   89 |   // אימות שכל הארגונים המוצגים הם פעילים
+   90 |   const organizations = page.locator("table tbody tr");
+   91 |   const count = await organizations.count();
+   92 |
+   93 |   for (let i = 0; i < count; i++) {
+   94 |     const statusCell = organizations.nth(i).locator("td:last-child");
+   95 |     await expect(statusCell).toHaveText("Active");
+   96 |   }
+   97 | });
+   98 |
+   99 | test("Edit an existing organization", async ({ page }) => {
+  100 |   await dashboardPage.navigateAndVerify(
+  101 |     "Organizations",
+  102 |     "organizations/bucket-manufacture"
+  103 |   );
+  104 |
+  105 |   // Wait for the page to be fully loaded
+  106 |   await page.waitForLoadState("networkidle");
+  107 |
+  108 |   // Wait for the table to be visible
+  109 |   await page.waitForSelector("table", { state: "visible" });
+  110 |
+  111 |   const cleanOriginalName = orgName.replace(/[^a-zA-Z\s]/g, "");
+  112 |   const updatedName = `Updated ${cleanOriginalName}`;
+  113 |   const updatedPhone = faker.phone.number();
+  114 |
+  115 |   // Find and click the row with the original organization name
+  116 |   await page.locator(`tr:has-text("${cleanOriginalName}")`).click();
+  117 |
+  118 |   // Check if edit button is enabled and click it
+  119 |   const editButton = page.getByRole("button", {
+  120 |     name: "Edit bucket manufacture",
+  121 |   });
+  122 |   await expect(editButton).toBeEnabled();
+  123 |   await editButton.click();
+  124 |
+  125 |   // Wait for input fields to be editable
+  126 |   await page.waitForSelector('input[name="name"]', { state: "visible" });
+  127 |
+  128 |   // Edit organization details
+  129 |   await page
+  130 |     .getByRole("textbox", { name: "Bucket Manufacture Name" })
+  131 |     .fill(updatedName);
+  132 |   await page.getByRole("textbox", { name: "Phone Number" }).fill(updatedPhone);
+  133 |
+  134 |   // Save changes
+  135 |   await page.getByRole("button", { name: "Save" }).click();
+  136 |
+  137 |   // Wait for save operation to complete
+  138 |   await page.waitForLoadState("networkidle");
+  139 |
+  140 |   // Verify changes in the table
+  141 |   const updatedRow = page.locator("tr").filter({ hasText: updatedName });
+  142 |   await expect(updatedRow).toBeVisible();
+  143 |   await expect(updatedRow).toContainText(updatedName);
+  144 | });
+  145 |
+  146 | test("Delete an organization", async ({ page }) => {
+  147 |   await dashboardPage.navigateAndVerify(
+  148 |     "Organizations",
+  149 |     "organizations/bucket-manufacture"
+  150 |   );
+  151 |
+  152 |   // Select an existing organization
+  153 |   await page.locator("text=Updated Organization").click();
+  154 |
+  155 |   // Delete the organization
+  156 |   await page.locator('button:has-text("Delete")').click();
+  157 |
+  158 |   // Confirm deletion
+  159 |   await page.locator('button:has-text("Confirm")').click();
+```

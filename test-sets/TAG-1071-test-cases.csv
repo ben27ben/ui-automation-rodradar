@@ -1,0 +1,15 @@
+Action,Data,Expected Result
+Display AI recognition camera screen,None,Red frame is visible on the camera screen
+Display AI recognition camera screen,None,"Hint text is displayed below the frame: ""כדי לזהות נכון ,  ודא שהמזגן במרכז המסגרת,  שהחדר מואר והתמונה אינה מטושטשת."""
+Place air conditioner in center of frame,Air conditioner centered,Recognition proceeds or user is prompted for next step
+Place air conditioner outside frame,Air conditioner not centered,User is prompted to center the air conditioner
+Room lighting is sufficient,Room is well-lit,Recognition proceeds or user is prompted for next step
+Room lighting is insufficient,Room is dark,User is prompted to improve lighting
+Camera image is clear,Image is sharp,Recognition proceeds or user is prompted for next step
+Camera image is blurry,Image is blurry,User is prompted to retake or adjust camera for clarity
+Open AI recognition camera screen,User starts camera flow,"Frame is displayed,  screen is darkened ,  hint text and button are shown"
+Click 'הבנתי תודה' button,User clicks button,"Hint text and button are hidden ,  camera becomes active"
+Take a picture,User takes a picture,Image is cropped based on frame and sent to AI recognition system
+Try to take a picture before clicking 'הבנתי תודה',User attempts to take picture,"Camera is not active ,  cannot take picture"
+Check hint text visibility,Camera screen opened,Hint text is visible below frame
+Check button visibility,Camera screen opened,'הבנתי תודה' button is visible below hint text 

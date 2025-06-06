@@ -1,0 +1,153 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:5:5
+
+# Error details
+
+```
+Error: locator.click: Test timeout of 60000ms exceeded.
+Call log:
+  - waiting for locator('button[aria-label="Add item"]')
+    - locator resolved to <button disabled tabindex="-1" type="button" aria-label="Add item" class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-231q9g">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    102 × waiting for element to be visible, enabled and stable
+        - element is not enabled
+      - retrying click action
+        - waiting 500ms
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:43:23)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:38:26
+```
+
+# Page snapshot
+
+```yaml
+- dialog:
+  - heading "Add Item" [level=4]
+  - text: Item Type
+  - button "Please select item type"
+  - text: Manufacture S/N
+  - textbox "Manufacture S/N"
+  - text: Manufacture Date
+  - textbox "Manufacture Date"
+  - button "Choose date"
+  - text: Notes
+  - textbox "Notes"
+  - button "Upload File":
+    - img
+    - text: Upload File
+  - paragraph
+  - button "Cancel"
+  - button "Add" [disabled]
+```
+
+# Test source
+
+```ts
+   1 | import { param } from "jquery";
+   2 | import { Locator, Page } from "playwright";
+   3 |
+   4 | export const randomString = (length: number): string => {
+   5 |   return Math.random()
+   6 |     .toString(36)
+   7 |     .substring(2, length + 2);
+   8 | };
+   9 |
+  10 | export async function waitForElement(
+  11 |   locator: Locator,
+  12 |   timeout: number = 5000
+  13 | ): Promise<void> {
+  14 |   await locator.waitFor({ state: "visible", timeout });
+  15 | }
+  16 |
+  17 | // Utility to fill all required fields in the add item dialog
+  18 | export async function fillMandatoryFields(page: Page) {
+  19 |   // Find all required fields (assuming they have aria-required or required attribute)
+  20 |   const requiredInputs = await page.$$('input[required], select[required], textarea[required], [aria-required="true"]');
+  21 |   for (const input of requiredInputs) {
+  22 |     const tag = await input.evaluate((el: HTMLElement) => el.tagName.toLowerCase());
+  23 |     if (tag === 'input' || tag === 'textarea') {
+  24 |       await input.fill('test'); // Insert a generic value
+  25 |     } else if (tag === 'select') {
+  26 |       const options = await input.$$('option');
+  27 |       if (options.length > 1) {
+  28 |         await input.selectOption({ index: 1 }); // Select the first non-default option
+  29 |       }
+  30 |     }
+  31 |   }
+  32 | }
+  33 |
+  34 | // Helper to create items for a given tab (now expects to be on the correct page)
+  35 | export async function createItemsForTab(page: Page) {
+  36 |   // Find the plus (+) button by aria-label
+  37 |   const addItemButton = page.locator('button[aria-label="Add item"]');
+  38 |   // try {
+  39 |   //   await addItemButton.waitFor({ state: 'visible', timeout: 10000 });
+  40 |   // } catch (e) {
+  41 |   //   throw new Error('Add item (+) button not found. Stopping the test.');
+  42 |   // }
+> 43 |   await addItemButton.click();
+     |                       ^ Error: locator.click: Test timeout of 60000ms exceeded.
+  44 |   // Get all item types from dropdown
+  45 |   const itemTypes = await page.$$eval('select[name="itemType"] option', opts => opts
+  46 |     .filter(o => o instanceof HTMLOptionElement && o.value)
+  47 |     .map(o => (o as HTMLOptionElement).value)
+  48 |   );
+  49 |   for (const itemType of itemTypes) {
+  50 |     try {
+  51 |       // Select the item type
+  52 |       await page.selectOption('select[name="itemType"]', itemType);
+  53 |       await fillMandatoryFields(page);
+  54 |       await page.click('button:has-text("Add")');
+  55 |       await page.waitForTimeout(1000); // Wait for add to complete
+  56 |       console.log(`Added item of type: ${itemType}`);
+  57 |       // Re-open the add item window for the next item type
+  58 |       await addItemButton.click();
+  59 |       await page.waitForTimeout(500); // Wait for the dialog to open
+  60 |     } catch (e) {
+  61 |       // If stuck, move to next item
+  62 |       continue;
+  63 |     }
+  64 |   }
+  65 | }
+  66 |
+  67 | // just stuff that can be usefull
+  68 | //create a locator with id
+  69 | // const firstName:Locator = page.locator('id=input-firstName')
+  70 | //create a locator with class
+  71 | //  const firstName:Locator = page.locator('.input-firstName')
+  72 | //  nameExist = await firstName.isEnabled()
+  73 |
+  74 | //create a locator with text
+  75 | //  const header:Locator = page.locator('text=Header Name')
+  76 | // const headerExisted = await header.isEnabled()
+  77 |
+  78 | //create a locator with css
+  79 | //const email:Locator = page.locator('input#input-email')
+  80 | //const telephone:Locator = page.locator('input[name="telephone"]')
+  81 | //const checkbox:Locator = page.locator('input[type="checkbox"]')
+  82 |
+  83 |
+  84 | //create a locator with xpath
+  85 | // const element = page.locator('xpath=//button')
+  86 |
+  87 | //Prevents the script from exiting(closing)
+  88 | // await new Promise(() => {})
+  89 |
+  90 |
+```

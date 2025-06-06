@@ -1,0 +1,9 @@
+Action,Data,Expected Result
+"Start device connection and select ""מיני מרכזי""","User clicks ""מיני מרכזי""",Screen with 4 models and instructions is displayed
+"Select ""Ducted inverter - Tuya"" and click ""הבא""",Model: ducted,User is navigated to Tuya flow
+"Select ""Ducted slim- Gree"" and click ""הבא""",Model: tadiran-inv-slim-g,User is navigated to Gree flow
+"Select ""AMCOR SLIM INV SQ-ללא WIFI"" and click ""הבא""",Model: amcor_slim_inv_sq_no_wifi,User is navigated to Smart IR flow
+"Select ""AMCOR SLIM INV SQ - WIFI מובנה"" and click ""הבא""",Model: amcor_slim_inv_sq,User is navigated to new flow
+"Click ""הקודם"" on model selection screen",User clicks back,User is navigated to AC type selection screen
+"Click ""אשמח לעזרה בזיהוי"" link",User clicks help link,User is navigated to WhatsApp support
+Try to proceed without selecting a model,No model selected,Next button is disabled or error shown 

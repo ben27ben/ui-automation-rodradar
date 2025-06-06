@@ -1,0 +1,57 @@
+Error processing option 2/8: locator.click: Error: strict mode violation: locator('//li[contains(@class, "css-13rzlu4")]') resolved to 4 elements:
+    1) <li tabindex="0" role="option" data-value="11" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 1 - 18)' })
+    2) <li tabindex="-1" role="option" data-value="12" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 2 - 18)' })
+    3) <li tabindex="-1" role="option" data-value="13" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 2 - 24)' })
+    4) <li tabindex="-1" role="option" data-value="14" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 3 - 24)' })
+
+Call log:
+  - waiting for locator('//li[contains(@class, "css-13rzlu4")]')
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:85:23)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@45',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 85,
+      column: 23,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.click(//li[contains(@class, "css-13rzlu4")])',
+    apiName: 'locator.click',
+    params: { selector: '//li[contains(@class, "css-13rzlu4")]', strict: true },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@45'
+    },
+    complete: [Function: complete],
+    endWallTime: 1749226202685,
+    error: {
+      message: `Error: locator.click: Error: strict mode violation: locator('//li[contains(@class, "css-13rzlu4")]') resolved to 4 elements:\n` +
+        `    1) <li tabindex="0" role="option" data-value="11" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 1 - 18)' })\n` +
+        `    2) <li tabindex="-1" role="option" data-value="12" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 2 - 18)' })\n` +
+        `    3) <li tabindex="-1" role="option" data-value="13" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 2 - 24)' })\n` +
+        `    4) <li tabindex="-1" role="option" data-value="14" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 3 - 24)' })\n` +
+        '\n' +
+        'Call log:\n' +
+        `\x1B[2m  - waiting for locator('//li[contains(@class, "css-13rzlu4")]')\x1B[22m\n`,
+      stack: `Error: locator.click: Error: strict mode violation: locator('//li[contains(@class, "css-13rzlu4")]') resolved to 4 elements:\n` +
+        `    1) <li tabindex="0" role="option" data-value="11" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 1 - 18)' })\n` +
+        `    2) <li tabindex="-1" role="option" data-value="12" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 2 - 18)' })\n` +
+        `    3) <li tabindex="-1" role="option" data-value="13" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 2 - 24)' })\n` +
+        `    4) <li tabindex="-1" role="option" data-value="14" aria-selected="false" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-13rzlu4">…</li> aka getByRole('option', { name: '(Type 3 - 24)' })\n` +
+        '\n' +
+        'Call log:\n' +
+        `\x1B[2m  - waiting for locator('//li[contains(@class, "css-13rzlu4")]')\x1B[22m\n` +
+        '\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:85:23)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}

@@ -1,0 +1,68 @@
+Error processing option 1/8: page.waitForTimeout: Target page, context or browser has been closed
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:64:18)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@22',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 64,
+      column: 18,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'page.waitForTimeout',
+    apiName: 'page.waitForTimeout',
+    params: { timeout: 1000 },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@22'
+    },
+    complete: [Function: complete],
+    endWallTime: 1748962835882,
+    error: {
+      message: 'Error: page.waitForTimeout: Target page, context or browser has been closed',
+      stack: 'Error: page.waitForTimeout: Target page, context or browser has been closed\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:64:18)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}
+Failed to close dialog: locator.isVisible: Target page, context or browser has been closed
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:140:31)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3 {
+  [Symbol(step)]: {
+    stepId: 'pw:api@23',
+    location: {
+      file: 'C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts',
+      line: 140,
+      column: 31,
+      function: 'createItemsForTab'
+    },
+    category: 'pw:api',
+    title: 'locator.isVisible(button[aria-label="Close"])',
+    apiName: 'locator.isVisible',
+    params: { selector: 'button[aria-label="Close"]', strict: true },
+    boxedStack: undefined,
+    steps: [],
+    attachmentIndices: [],
+    info: TestStepInfoImpl {
+      annotations: [],
+      _testInfo: [TestInfoImpl],
+      _stepId: 'pw:api@23'
+    },
+    complete: [Function: complete],
+    endWallTime: 1748962835895,
+    error: {
+      message: 'Error: locator.isVisible: Target page, context or browser has been closed',
+      stack: 'Error: locator.isVisible: Target page, context or browser has been closed\n' +
+        '    at createItemsForTab (C:\\Users\\benv\\ui-automation-playwright\\src\\utils\\helpers.ts:140:31)\n' +
+        '    at C:\\Users\\benv\\ui-automation-playwright\\src\\tests\\Inventory.spec.ts:32:3',
+      cause: undefined
+    }
+  }
+}

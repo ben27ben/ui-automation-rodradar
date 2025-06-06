@@ -1,0 +1,45 @@
+{
+  "title": "Test Cases for TAG-1126",
+  "testCases": [
+    {
+      "Action": "Start device connection and select 'מיני מרכזי'",
+      "Data": "User clicks 'מיני מרכזי'",
+      "Expected Result": "Screen with 4 models and instructions is displayed"
+    },
+    {
+      "Action": "Select 'Ducted inverter - Tuya' and click 'הבא'",
+      "Data": "Model: ducted",
+      "Expected Result": "User is navigated to Tuya flow"
+    },
+    {
+      "Action": "Select 'Ducted slim- Gree' and click 'הבא'",
+      "Data": "Model: tadiran-inv-slim-g",
+      "Expected Result": "User is navigated to Gree flow"
+    },
+    {
+      "Action": "Select 'AMCOR SLIM INV SQ-ללא WIFI' and click 'הבא'",
+      "Data": "Model: amcor_slim_inv_sq_no_wifi",
+      "Expected Result": "User is navigated to Smart IR flow"
+    },
+    {
+      "Action": "Select 'AMCOR SLIM INV SQ - WIFI מובנה' and click 'הבא'",
+      "Data": "Model: amcor_slim_inv_sq",
+      "Expected Result": "User is navigated to new flow"
+    },
+    {
+      "Action": "Click 'הקודם' on model selection screen",
+      "Data": "User clicks back",
+      "Expected Result": "User is navigated to AC type selection screen"
+    },
+    {
+      "Action": "Click 'אשמח לעזרה בזיהוי' link",
+      "Data": "User clicks help link",
+      "Expected Result": "User is navigated to WhatsApp support"
+    },
+    {
+      "Action": "Try to proceed without selecting a model",
+      "Data": "No model selected",
+      "Expected Result": "Next button is disabled or error shown"
+    }
+  ]
+} 

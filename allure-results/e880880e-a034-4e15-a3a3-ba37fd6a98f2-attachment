@@ -1,0 +1,178 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:5:6
+
+# Error details
+
+```
+Error: locator.waitFor: Error: strict mode violation: locator('ul.MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9') resolved to 2 elements:
+    1) <ul role="menu" tabindex="-1" class="MuiList-root MuiList-padding MuiMenu-list css-r8u8y9">…</ul> aka locator('ul').filter({ hasText: 'Logout' })
+    2) <ul tabindex="-1" role="listbox" class="MuiList-root MuiList-padding MuiMenu-list css-r8u8y9">…</ul> aka getByText('Digital CardBucketRF')
+
+Call log:
+  - waiting for locator('ul.MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9') to be visible
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:52:19)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3
+```
+
+# Page snapshot
+
+```yaml
+- listbox:
+  - option "Digital Card"
+  - option "Bucket"
+  - option "RF Card"
+  - option "Antenna"
+  - option "Tablet"
+  - option "Platform Kit"
+  - option "Mini PC"
+  - option "System Card"
+```
+
+# Test source
+
+```ts
+   1 | import { param } from "jquery";
+   2 | import { Locator, Page } from "playwright";
+   3 |
+   4 | export const randomString = (length: number): string => {
+   5 |   return Math.random()
+   6 |     .toString(36)
+   7 |     .substring(2, length + 2);
+   8 | };
+   9 |
+   10 | export async function waitForElement(
+   11 |   locator: Locator,
+   12 |   timeout: number = 5000
+   13 | ): Promise<void> {
+   14 |   await locator.waitFor({ state: "visible", timeout });
+   15 | }
+   16 |
+   17 | // Utility to fill all required fields in the add item dialog
+   18 | export async function fillMandatoryFields(page: Page) {
+   19 |   // Find all required fields (assuming they have aria-required or required attribute)
+   20 |   const requiredInputs = await page.$$('input[required], select[required], textarea[required], [aria-required="true"]');
+   21 |   for (const input of requiredInputs) {
+   22 |     const tag = await input.evaluate((el: HTMLElement) => el.tagName.toLowerCase());
+   23 |     if (tag === 'input' || tag === 'textarea') {
+   24 |       await input.fill('test'); // Insert a generic value
+   25 |     } else if (tag === 'select') {
+   26 |       const options = await input.$$('option');
+   27 |       if (options.length > 1) {
+   28 |         await input.selectOption({ index: 1 }); // Select the first non-default option
+   29 |       }
+   30 |     }
+   31 |   }
+   32 | }
+   33 |
+   34 | // Helper to create items for a given tab (now expects to be on the correct page)
+   35 | export async function createItemsForTab(page: Page) {
+   36 |   // Find the plus (+) button by aria-label
+   37 |   const addItemButton = page.locator('button[aria-label="Add item"]');
+   38 |   
+   39 |   // Wait for and click the add item button
+   40 |   await addItemButton.waitFor({ state: 'visible', timeout: 10000 });
+   41 |   await addItemButton.click();
+   42 |   
+   43 |   // Wait for the dialog to be fully loaded and the item type div to be visible
+   44 |   const dropdownTrigger = page.locator('//div[contains(@class, "css-1oni2mo")]');
+   45 |   await dropdownTrigger.waitFor({ state: 'visible', timeout: 10000 });
+   46 |
+   47 |   // Click the div to open the dropdown listbox
+   48 |   await dropdownTrigger.click();
+   49 |
+   50 |   // Wait for the listbox ul to be visible
+   51 |   const listboxUl = page.locator('ul.MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9');
+>  52 |   await listboxUl.waitFor({ state: 'visible', timeout: 10000 });
+      |                   ^ Error: locator.waitFor: Error: strict mode violation: locator('ul.MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9') resolved to 2 elements:
+   53 |
+   54 |   // Get all list item locators within the ul
+   55 |   const options = await listboxUl.locator('li').all();
+   56 |
+   57 |   console.log('Found', options.length, 'item type options.');
+   58 |
+   59 |   for (let i = 0; i < options.length; i++) {
+   60 |     const option = options[i];
+   61 |     try {
+   62 |       // Click the current option li
+   63 |       await option.click();
+   64 |       await page.waitForTimeout(500); // Wait for selection to take effect and form to update
+   65 |
+   66 |       // Fill mandatory fields that appear
+   67 |       await fillMandatoryFields(page);
+   68 |
+   69 |       // Click the Add button
+   70 |       const addButton = page.locator('button:has-text("Add")');
+   71 |       await addButton.click();
+   72 |
+   73 |       // Wait for the dialog to close or success message
+   74 |       await page.waitForTimeout(2000);
+   75 |
+   76 |       console.log(`Successfully added item for option ${i + 1}/${options.length}.`);
+   77 |
+   78 |       // If there are more options, reopen the add item window and the dropdown listbox
+   79 |       if (i < options.length - 1) {
+   80 |           // Re-open the add item window
+   81 |           await addItemButton.click();
+   82 |           await page.waitForSelector('//div[contains(@class, "css-1oni2mo")]', { state: 'visible', timeout: 10000 });
+   83 |           // Click the div to open the dropdown listbox for the next selection
+   84 |           await dropdownTrigger.click();
+   85 |           await listboxUl.waitFor({ state: 'visible', timeout: 10000 }); // Wait for listbox to be visible again
+   86 |       }
+   87 |
+   88 |     } catch (e) {
+   89 |       console.error(`Error processing option ${i + 1}/${options.length}:`, e);
+   90 |       // Try to close the dialog if it's stuck
+   91 |       try {
+   92 |         const closeButton = page.locator('button[aria-label="Close"]');
+   93 |         if (await closeButton.isVisible()) {
+   94 |           await closeButton.click();
+   95 |         }
+   96 |       } catch (closeError) {
+   97 |         console.error('Failed to close dialog:', closeError);
+   98 |       }
+   99 |       // Re-open for the next iteration if not the last
+  100 |        if (i < options.length - 1) {
+  101 |           await addItemButton.click();
+  102 |           await page.waitForSelector('//div[contains(@class, "css-1oni2mo")]', { state: 'visible', timeout: 10000 });
+  103 |           await dropdownTrigger.click();
+  104 |           await listboxUl.waitFor({ state: 'visible', timeout: 10000 });
+  105 |       }
+  106 |       continue;
+  107 |     }
+  108 |   }
+  109 | }
+  110 |
+  111 | // just stuff that can be usefull
+  112 | //create a locator with id
+  113 | // const firstName:Locator = page.locator('id=input-firstName')
+  114 | //create a locator with class
+  115 | //  const firstName:Locator = page.locator('.input-firstName')
+  116 | //  nameExist = await firstName.isEnabled()
+  117 |
+  118 | //create a locator with text
+  119 | //  const header:Locator = page.locator('text=Header Name')
+  120 | // const headerExisted = await header.isEnabled()
+  121 |
+  122 | //create a locator with css
+  123 | //const email:Locator = page.locator('input#input-email')
+  124 | //const telephone:Locator = page.locator('input[name="telephone"]')
+  125 | //const checkbox:Locator = page.locator('input[type="checkbox"]')
+  126 |
+  127 |
+  128 | //create a locator with xpath
+  129 | // const element = page.locator('xpath=//button')
+  130 |
+  131 | //Prevents the script from exiting(closing)
+  132 | // await new Promise(() => {})
+  133 |
+  134 |
+```

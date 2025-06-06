@@ -3,7 +3,7 @@ import { defineConfig } from "playwright/test";
 
 export default defineConfig({
     testDir: 'src/tests',
-    timeout: 20000,
+    timeout: 30000,
     retries: 0,
     use: {
         headless: false,
@@ -16,6 +16,10 @@ export default defineConfig({
             name: 'Chromium',
             use: {browserName: 'chromium'}
         }
+    ],
+    reporter: [
+        ['list'],
+        ['allure-playwright']
     ]
 })
 //run the project on chrome

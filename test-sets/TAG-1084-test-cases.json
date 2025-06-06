@@ -1,0 +1,45 @@
+{
+  "title": "Test Cases for TAG-1084",
+  "testCases": [
+    {
+      "Action": "Select a Wi-Fi network during pairing",
+      "Data": "Network: 2.4GHz",
+      "Expected Result": "No warning, continue pairing"
+    },
+    {
+      "Action": "Select a Wi-Fi network during pairing",
+      "Data": "Network: 5GHz",
+      "Expected Result": "Warning message about unsupported frequency is shown"
+    },
+    {
+      "Action": "Select a Wi-Fi network with SSID containing '5GHz' (iPhone)",
+      "Data": "SSID: MyWifi-5GHz",
+      "Expected Result": "Warning message is shown"
+    },
+    {
+      "Action": "Click 'התחברות' on 5GHz network",
+      "Data": "Network: 5GHz",
+      "Expected Result": "Warning message is shown"
+    },
+    {
+      "Action": "Click 'אשמח לקבל עוד מידע' on warning",
+      "Data": "User clicks 'Learn More'",
+      "Expected Result": "Support page for 2.4GHz is opened"
+    },
+    {
+      "Action": "Click 'מעוניין להתחבר בכל זאת' on warning",
+      "Data": "User clicks 'Continue Anyway'",
+      "Expected Result": "Pairing continues at user's risk"
+    },
+    {
+      "Action": "Click close on warning without action",
+      "Data": "User closes warning",
+      "Expected Result": "Pairing does not continue, warning dismissed"
+    },
+    {
+      "Action": "Select a Wi-Fi network with unknown frequency",
+      "Data": "Network: Unknown",
+      "Expected Result": "Pairing continues as 2.4GHz"
+    }
+  ]
+} 

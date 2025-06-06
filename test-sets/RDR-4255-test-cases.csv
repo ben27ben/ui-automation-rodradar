@@ -1,0 +1,11 @@
+Action,Data,Expected Result
+"Enable ""Share Location"" toggle in settings",Toggle set to ON,Location of scan is saved in DB and uploaded to BO
+"Disable ""Share Location"" toggle in settings",Toggle set to OFF,"Location is saved as 0 , 0 in DB for all scans"
+Scan using LDR app with toggle ON,Device: Mobile,Location is saved per mobile device and uploaded to BO
+Scan using WinApp with toggle ON,Device: WinApp,Location is saved per unit and uploaded to BO
+Scan using LDR app with toggle OFF,Device: Mobile,"Location is saved as 0 , 0 per mobile device in DB"
+Scan using WinApp with toggle OFF,Device: WinApp,"Location is saved as 0 , 0 per unit in DB"
+Attempt to scan with toggle OFF and check BO,Toggle OFF,BO receives location as 0
+Attempt to scan with toggle ON and check BO,Toggle ON,BO receives actual location
+Try to save scan when DB is unavailable,Any,Error is shown and scan is not saved
+Try to toggle setting without permissions,User without permission,Action is denied and setting is not changed 

@@ -1,0 +1,175 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory item creation automation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:5:6
+
+# Error details
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('button[aria-label="Add item"]')
+    - locator resolved to <button disabled tabindex="-1" type="button" aria-label="Add item" class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-231q9g">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    201 × waiting for element to be visible, enabled and stable
+        - element is not enabled
+      - retrying click action
+        - waiting 500ms
+
+    at createItemsForTab (C:\Users\benv\ui-automation-playwright\src\utils\helpers.ts:131:29)
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:32:3
+```
+
+# Test source
+
+```ts
+   31 |   }
+   32 | }
+   33 |
+   34 | // Helper to create items for a given tab (now expects to be on the correct page)
+   35 | export async function createItemsForTab(page: Page, itemName: string) {
+   36 |   // Find the plus (+) button by aria-label
+   37 |   const addItemButton = page.locator('button[aria-label="Add item"]');
+   38 |   
+   39 |   // Wait for and click the add item button
+   40 |   await addItemButton.waitFor({ state: 'visible', timeout: 10000 });
+   41 |   await addItemButton.click();
+   42 |
+   43 |   // Wait for the dialog to be fully loaded and the item type div to be visible
+   44 |   const dropdownTrigger = page.locator('//div[contains(@class, "css-1oni2mo")]', { hasText: '' });
+   45 |   await dropdownTrigger.waitFor({ state: 'visible', timeout: 10000 });
+   46 |   await dropdownTrigger.click();
+   47 |
+   48 |   // Wait for the listbox ul to be visible
+   49 |   const listboxUl = page.locator('//ul[@role="listbox"]');
+   50 |   await listboxUl.waitFor({ state: 'visible', timeout: 10000 });
+   51 |
+   52 |   // Create a list of item locators
+   53 |   const itemLocators = [
+   54 |     await listboxUl.locator('li[data-value="DigitalCard"]'),
+   55 |     await listboxUl.locator('li[data-value="Bucket"]'),
+   56 |     await listboxUl.locator('li[data-value="RFCard"]'),
+   57 |     await listboxUl.locator('li[data-value="Antenna"]'),
+   58 |     await listboxUl.locator('li[data-value="Tablet"]'),
+   59 |     await listboxUl.locator('li[data-value="PlatformKit"]'),
+   60 |     await listboxUl.locator('li[data-value="MiniPC"]'),
+   61 |     await listboxUl.locator('li[data-value="SystemCard"]'),
+   62 |   ];
+   63 |
+   64 |   for (let i = 0; i < itemLocators.length; i++) {
+   65 |     const option = itemLocators[i];
+   66 |     try {
+   67 |       const optionText = await option.textContent();
+   68 |       console.log(`Selecting item type: ${optionText}`);
+   69 |       await option.click();
+   70 |       await page.waitForTimeout(1000);
+   71 |
+   72 |       // For items 1,2,4 (DigitalCard, Bucket, Antenna)
+   73 |       if (i === 0 || i === 1 || i === 3) {
+   74 |         // Fill Manufacture S/N
+   75 |         const snSelector = 'name="manufactureSerialNumber"]';
+   76 |         if (await page.locator(snSelector).isVisible()) {
+   77 |           await page.fill(snSelector, `test-serial-${i+1}`);
+   78 |           console.log(`Filled Manufacture S/N for ${optionText}`);
+   79 |         }
+   80 |         // Fill Manufacture P/N
+   81 |         const pnSelector = page.locator('(//div[contains(@tabindex, "0") and contains(@class, "css-1oni2mo")])[2]');
+   82 |         await pnSelector.click();
+   83 |         if (await pnSelector.isVisible()) {
+   84 |           const pnInput = await page.locator('//li[contains(@class, "css-13rzlu4") and contains(@data-value, "2")]');
+   85 |           await pnInput.click();
+   86 |           console.log(`Filled Manufacture P/N for ${optionText}`);
+   87 |         }
+   88 |         // Handle Manufacture Date (date picker)
+   89 |         const dateBtnSelector = 'button[aria-label="Choose date"]';
+   90 |         if (await page.locator(dateBtnSelector).isVisible()) {
+   91 |           await page.click(dateBtnSelector);
+   92 |           await page.waitForTimeout(500);
+   93 |           const dateCell = page.locator('button[aria-current="date"]');
+   94 |           if (await dateCell.isVisible()) {
+   95 |             await dateCell.click();
+   96 |             console.log(`Selected a date for ${optionText}`);
+   97 |           }
+   98 |         }
+   99 |       }
+  100 |       // For the rest, just select the item type and do nothing
+  101 |       // Optionally, log that nothing was done
+  102 |       else {
+  103 |         console.log(`No fields filled for ${optionText}`);
+  104 |       }
+  105 |       // Optionally, click Add if you want to submit for these items
+  106 |       // const addButton = page.locator('button:has-text("Add")');
+  107 |       // if (await addButton.isVisible()) {
+  108 |       //   await addButton.click();
+  109 |       //   console.log('Clicked Add button');
+  110 |       // }
+  111 |       // await page.waitForTimeout(2000);
+  112 |       // If there are more options, reopen the add item window and the dropdown listbox
+  113 |       if (i < itemLocators.length - 1) {
+  114 |         await addItemButton.click();
+  115 |         await dropdownTrigger.waitFor({ state: 'visible', timeout: 10000 });
+  116 |         await dropdownTrigger.click();
+  117 |         await listboxUl.waitFor({ state: 'visible', timeout: 10000 });
+  118 |       }
+  119 |     } catch (e) {
+  120 |       console.error(`Error processing option ${i + 1}/${itemLocators.length}:`, e);
+  121 |       // Try to close the dialog if it's stuck
+  122 |       try {
+  123 |         const closeButton = page.locator('button[aria-label="Close"]');
+  124 |         if (await closeButton.isVisible()) {
+  125 |           await closeButton.click();
+  126 |         }
+  127 |       } catch (closeError) {
+  128 |         console.error('Failed to close dialog:', closeError);
+  129 |       }
+  130 |       if (i < itemLocators.length - 1) {
+> 131 |         await addItemButton.click();
+      |                             ^ Error: locator.click: Target page, context or browser has been closed
+  132 |         await dropdownTrigger.waitFor({ state: 'visible', timeout: 10000 });
+  133 |         await dropdownTrigger.click();
+  134 |         await listboxUl.waitFor({ state: 'visible', timeout: 10000 });
+  135 |       }
+  136 |       continue;
+  137 |     }
+  138 |   }
+  139 | }
+  140 |
+  141 | // just stuff that can be usefull
+  142 | //create a locator with id
+  143 | // const firstName:Locator = page.locator('id=input-firstName')
+  144 | //create a locator with class
+  145 | //  const firstName:Locator = page.locator('.input-firstName')
+  146 | //  nameExist = await firstName.isEnabled()
+  147 |
+  148 | //create a locator with text
+  149 | //  const header:Locator = page.locator('text=Header Name')
+  150 | // const headerExisted = await header.isEnabled()
+  151 |
+  152 | //create a locator with css
+  153 | //const email:Locator = page.locator('input#input-email')
+  154 | //const telephone:Locator = page.locator('input[name="telephone"]')
+  155 | //const checkbox:Locator = page.locator('input[type="checkbox"]')
+  156 |
+  157 |
+  158 | //create a locator with xpath
+  159 | // const element = page.locator('xpath=//button')
+  160 |
+  161 | //Prevents the script from exiting(closing)
+  162 | // await new Promise(() => {})
+  163 |
+  164 |
+```
