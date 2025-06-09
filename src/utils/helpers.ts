@@ -52,14 +52,14 @@ export async function createItemsForTab(page: Page, itemName: string) {
 
   // Create a list of item locators
   const itemLocators = [
-    await listboxUl.locator('li[data-value="DigitalCard"]'),
-    await listboxUl.locator('li[data-value="Bucket"]'),
-    await listboxUl.locator('li[data-value="RFCard"]'),
-    await listboxUl.locator('li[data-value="Antenna"]'),
-    await listboxUl.locator('li[data-value="Tablet"]'),
-    await listboxUl.locator('li[data-value="PlatformKit"]'),
-    await listboxUl.locator('li[data-value="MiniPC"]'),
-    await listboxUl.locator('li[data-value="SystemCard"]'),
+    listboxUl.locator('li[data-value="DigitalCard"]'),
+    listboxUl.locator('li[data-value="Bucket"]'),
+    listboxUl.locator('li[data-value="RFCard"]'),
+    listboxUl.locator('li[data-value="Antenna"]'),
+    listboxUl.locator('li[data-value="Tablet"]'),
+    listboxUl.locator('li[data-value="PlatformKit"]'),
+    listboxUl.locator('li[data-value="MiniPC"]'),
+    listboxUl.locator('li[data-value="SystemCard"]'),
   ];
 
   // Only process items 0, 1, and 3

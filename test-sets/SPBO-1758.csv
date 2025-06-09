@@ -1,0 +1,5 @@
+Action,Data,Expected Result
+"Search for an item of type 'Mix' in the Add Item window","{""itemType"": ""Mix"", ""searchTerm"": ""MIX-123""}","No results are returned for items of type 'Mix'"
+"Search for an item of a regular (non-Mix) type in the Add Item window","{""itemType"": ""Regular"", ""searchTerm"": ""REG-456""}","Matching regular items are returned in the results"
+"Attempt to add an item by entering a Mix item number directly in the Add Item window","{""itemType"": ""Mix"", ""itemNumber"": ""MIX-789""}","System does not allow adding the Mix item; no such item is found"
+"Attempt to add an item by entering an invalid item number in the Add Item window","{""itemType"": ""Regular"", ""itemNumber"": ""INVALID-000""}","System displays 'No results found' or similar error" 

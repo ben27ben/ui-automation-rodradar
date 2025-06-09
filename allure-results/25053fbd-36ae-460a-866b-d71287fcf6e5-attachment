@@ -1,0 +1,268 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Inventory assembly creation
+- Location: C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:23:6
+
+# Error details
+
+```
+TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+Call log:
+  - waiting for locator('//a[contains(@href, "/inventory/assembly")]') to be visible
+
+    at C:\Users\benv\ui-automation-playwright\src\tests\Inventory.spec.ts:30:21
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - heading "RodRadar" [level=1]:
+    - img "RodRadar"
+  - button
+  - button "Avatar Bo Admin":
+    - img "Avatar"
+    - text: Bo Admin
+- button
+- list:
+  - img
+  - text: Dashboards
+  - link "Organizations":
+    - img
+    - text: Organizations
+  - link "Users"
+  - link "Units"
+  - link "Scans"
+  - link "Errors Log":
+    - img
+    - text: Errors Log
+  - link "Inventory":
+    - img
+    - text: Inventory
+  - link "Versions":
+    - img
+    - text: Versions
+  - link "Reports":
+    - img
+    - text: Reports
+  - link "Trainings":
+    - img
+    - text: Trainings
+  - link "Alerts":
+    - img
+    - text: Alerts
+  - link "Support Calls":
+    - img
+    - text: Support Calls
+- text: "Version: 7.26.0"
+- main:
+  - text: Inventory
+  - link "Items"
+  - link "Assemblies"
+  - link "Systems"
+  - text: Search
+  - textbox "Search"
+  - text: Item Type
+  - button "Item Type"
+  - text: Associated
+  - button "Associated"
+  - text: Organization
+  - button "Organization"
+  - checkbox "Show only my items"
+  - text: Show only my items
+  - button "Clear all"
+  - button "Refesh Data":
+    - img
+  - button "Export Data":
+    - img
+  - button "Add item":
+    - img
+  - button "Associate":
+    - img
+  - table:
+    - rowgroup:
+      - row "ID Creation Time Item Type Manufacture S/N Manufacture Date Manufacture P/N Associated File":
+        - columnheader:
+          - checkbox [disabled]
+        - columnheader "ID"
+        - columnheader "Creation Time":
+          - button "Creation Time"
+        - columnheader "Item Type":
+          - button "Item Type"
+        - columnheader "Manufacture S/N":
+          - button "Manufacture S/N"
+        - columnheader "Manufacture Date":
+          - button "Manufacture Date"
+        - columnheader "Manufacture P/N":
+          - button "Manufacture P/N"
+        - columnheader "Associated"
+        - columnheader "File"
+    - rowgroup:
+      - row "1 20/05/2025 15:46 Antenna ant12 20/05/25 ROD-A200-01":
+        - cell:
+          - checkbox [disabled]
+        - cell "1"
+        - cell "20/05/2025 15:46"
+        - cell "Antenna"
+        - cell "ant12"
+        - cell "20/05/25"
+        - cell "ROD-A200-01"
+        - cell
+        - cell
+      - row "2 20/05/2025 15:46 Antenna ant11 20/05/25 ROD-A200-01":
+        - cell:
+          - checkbox [disabled]
+        - cell "2"
+        - cell "20/05/2025 15:46"
+        - cell "Antenna"
+        - cell "ant11"
+        - cell "20/05/25"
+        - cell "ROD-A200-01"
+        - cell
+        - cell
+      - row "3 20/05/2025 15:39 Digital Card TestRod1 20/05/25 111-0086-V4.00 Edit item Delete item":
+        - cell:
+          - checkbox [disabled]
+        - cell "3"
+        - cell "20/05/2025 15:39"
+        - cell "Digital Card"
+        - cell "TestRod1"
+        - cell "20/05/25"
+        - cell "111-0086-V4.00"
+        - cell
+        - cell
+        - button "Edit item":
+          - img
+        - button "Delete item":
+          - img
+      - row "4 20/05/2025 14:48 Tablet RP403T0314 Getac5262122801P3":
+        - cell:
+          - checkbox [disabled]
+        - cell "4"
+        - cell "20/05/2025 14:48"
+        - cell "Tablet"
+        - cell "RP403T0314"
+        - cell
+        - cell "Getac5262122801P3"
+        - cell
+        - cell
+      - row "5 20/05/2025 11:09 Antenna antenna 22 20/05/25 ROD-A200-01":
+        - cell:
+          - checkbox [disabled]
+        - cell "5"
+        - cell "20/05/2025 11:09"
+        - cell "Antenna"
+        - cell "antenna 22"
+        - cell "20/05/25"
+        - cell "ROD-A200-01"
+        - cell
+        - cell
+      - row "6 20/05/2025 11:09 Antenna antenna 11 20/05/25 ROD-A200-01":
+        - cell:
+          - checkbox [disabled]
+        - cell "6"
+        - cell "20/05/2025 11:09"
+        - cell "Antenna"
+        - cell "antenna 11"
+        - cell "20/05/25"
+        - cell "ROD-A200-01"
+        - cell
+        - cell
+      - row "7 20/05/2025 11:07 Digital Card NewDigital 20/05/25 111-0086-V4.00":
+        - cell:
+          - checkbox [disabled]
+        - cell "7"
+        - cell "20/05/2025 11:07"
+        - cell "Digital Card"
+        - cell "NewDigital"
+        - cell "20/05/25"
+        - cell "111-0086-V4.00"
+        - cell
+        - cell
+      - row "8 20/05/2025 10:51 Tablet 4GTCA03206 Tab000005 - Panasonic":
+        - cell:
+          - checkbox [disabled]
+        - cell "8"
+        - cell "20/05/2025 10:51"
+        - cell "Tablet"
+        - cell "4GTCA03206"
+        - cell
+        - cell "Tab000005 - Panasonic"
+        - cell
+        - cell
+      - row "9 30/03/2025 14:20 Antenna 222222222222 30/03/25 ROD-A200-01":
+        - cell:
+          - checkbox [disabled]
+        - cell "9"
+        - cell "30/03/2025 14:20"
+        - cell "Antenna"
+        - cell "222222222222"
+        - cell "30/03/25"
+        - cell "ROD-A200-01"
+        - cell
+        - cell
+      - row "10 30/03/2025 14:20 Antenna 1111111111 30/03/25 ROD-A200-01":
+        - cell:
+          - checkbox [disabled]
+        - cell "10"
+        - cell "30/03/2025 14:20"
+        - cell "Antenna"
+        - cell "1111111111"
+        - cell "30/03/25"
+        - cell "ROD-A200-01"
+        - cell
+        - cell
+  - paragraph: "Rows per page:"
+  - 'button "Rows per page: 10"': "10"
+  - paragraph: 1–10 of 823
+  - button "Go to previous page" [disabled]
+  - button "Go to next page"
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@playwright/test';
+   2 | import { fillMandatoryFields, createItemsForTab } from '../utils/helpers';
+   3 | import { allure } from 'allure-playwright';
+   4 | import { LoginPage } from '../pages/loginPage';
+   5 |
+   6 | let loginPage: LoginPage;
+   7 |
+   8 |
+   9 | test('Inventory item creation', async ({ page }) => {
+  10 |   // Login
+  11 |   await page.goto('https://bo-dev.rodradar.com');
+  12 |   await page.fill('input[type="email"],input[name="email"]', 'boadmin@rodradar.com');
+  13 |   await page.fill('input[type="password"],input[name="password"]', 'Abcd1234');
+  14 |   await page.click('button[type="submit"],button:has-text("Login"),button:has-text("Sign In")');
+  15 |
+  16 |   // Wait for a known element after login (sidebar Inventory link)
+  17 |   await page.waitForSelector('a[href="/inventory"]', { timeout: 15000 });
+  18 |
+  19 |   // Go directly to the Inventory Items page
+  20 |   await page.goto('https://bo-dev.rodradar.com/inventory/items');
+  21 |   await createItemsForTab(page, 'inventory');
+  22 | }); 
+  23 | test.only('Inventory assembly creation', async ({ page }) => {
+  24 |   loginPage = new LoginPage(page);
+  25 |   await loginPage.navigateToLogin();
+  26 |   await loginPage.login('boadmin@rodradar.com', 'Abcd1234');
+  27 |   await page.waitForSelector('a[href="/inventory"]', { timeout: 15000 });
+  28 |   await page.goto('https://bo-dev.rodradar.com/inventory/items');
+  29 |   const assemblyTab = page.locator('//a[contains(@href, "/inventory/assembly")]');
+> 30 |   await assemblyTab.waitFor({ timeout: 1000 });
+     |                     ^ TimeoutError: locator.waitFor: Timeout 1000ms exceeded.
+  31 |   await assemblyTab.click();
+  32 |   await page.locator('//button[@aria-label="Add Assembly"]').click();
+  33 |   await page.locator('//div[contains(@class, "MuiOutlinedInput-input") and contains(@class, "css-1oni2mo")]').click();
+  34 |   await page.locator('//li[(@data-value="1")]').click();
+  35 |
+  36 | });
+```
